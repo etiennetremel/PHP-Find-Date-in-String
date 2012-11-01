@@ -6,15 +6,15 @@ Function to find a date in a string using Regular Expression
 
 ### Usage
 
-$string = "This building was cleaned on the 8th of October 2006 after a huge storm."
-$date = find_date( $string );
+	$string = "This building was cleaned on the 8th of October 2006 after a huge storm."
+	$date = find_date( $string );
 
-// Return:
-array(
-	'day'	=> 08,
-	'month'	=> 10,
-	'year'	=> 2006
-);
+	// Return:
+	array(
+		'day'	=> 08,
+		'month'	=> 10,
+		'year'	=> 2006
+	);
 
 
 ### Other examples:
