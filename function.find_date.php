@@ -26,6 +26,20 @@ function find_date( $string ) {
 		"november",
 		"december"
 	);
+	$short_month_names = array( 
+		"jan",
+		"feb",
+		"mar",
+		"apr",
+		"may",
+		"jun",
+		"jul",
+		"aug",
+		"sep",
+		"oct",
+		"nov",
+		"dec"
+	);
 
 	$month_number=$month=$matches_year=$year=$matches_month_number=$matches_month_word=$matches_day_number="";
 	
@@ -48,6 +62,14 @@ function find_date( $string ) {
 	if ( $matches_month_word ) {
 		if ( $matches_month_word[1] )
 			$month = array_search( strtolower( $matches_month_word[1] ),  $month_names ) + 1;
+	}
+	//Match short month names
+	if ($month == null) {
+		preg_match( '/(' . implode( '|', $short_month_names ) . ')/i', $string, $matches_month_word );
+		if ( $matches_month_word ) {
+			if ( $matches_month_word[1] )
+				$month = array_search( strtolower( $matches_month_word[1] ),  $short_month_names ) + 1;
+		}
 	}
 
 	//Match 5th 1st day:
