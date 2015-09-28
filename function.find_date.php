@@ -44,6 +44,9 @@ function find_date( $string ) {
   );
   $short_day_names = array_map( $shortenize, $day_names );
 
+  // Define ordinal number
+  $ordinal_number = ['st', 'nd', 'rd', 'th'];
+
   $day = "";
   $month = "";
   $year = "";
@@ -60,7 +63,7 @@ function find_date( $string ) {
   }
 
   // Match dates: Sunday 1st March 2015; Sunday, 1 March 2015; Sun 1 Mar 2015; Sun-1-March-2015
-  preg_match('/(?:(?:' . implode( '|', $day_names ) . '|' . implode( '|', $short_day_names ) . ')[ ,\-_\/]*)?([0-9]?[0-9])[ ,\-_\/]*(?:st|nd|th)?[ ,\-_\/]*(' . implode( '|', $month_names ) . '|' . implode( '|', $short_month_names ) . ')[ ,\-_\/]+([0-9]{4})/i', $string, $matches );
+  preg_match('/(?:(?:' . implode( '|', $day_names ) . '|' . implode( '|', $short_day_names ) . ')[ ,\-_\/]*)?([0-9]?[0-9])[ ,\-_\/]*(?:' . implode( '|', $ordinal_number ) . ')?[ ,\-_\/]*(' . implode( '|', $month_names ) . '|' . implode( '|', $short_month_names ) . ')[ ,\-_\/]+([0-9]{4})/i', $string, $matches );
   if ( $matches ) {
     if ( empty( $day ) && $matches[1] )
       $day = $matches[1];
@@ -79,7 +82,7 @@ function find_date( $string ) {
   }
 
   // Match dates: March 1st 2015; March 1 2015; March-1st-2015
-  preg_match('/(' . implode( '|', $month_names ) . '|' . implode( '|', $short_month_names ) . ')[ ,\-_\/]*([0-9]?[0-9])[ ,\-_\/]*(?:st|nd|th)?[ ,\-_\/]+([0-9]{4})/i', $string, $matches );
+  preg_match('/(' . implode( '|', $month_names ) . '|' . implode( '|', $short_month_names ) . ')[ ,\-_\/]*([0-9]?[0-9])[ ,\-_\/]*(?:' . implode( '|', $ordinal_number ) . ')?[ ,\-_\/]+([0-9]{4})/i', $string, $matches );
   if ( $matches ) {
     if ( empty( $month ) && $matches[1] ) {
       $month = array_search( strtolower( $matches[1] ),  $short_month_names );
@@ -115,7 +118,7 @@ function find_date( $string ) {
 
   // Match 5th 1st day:
   if ( empty( $day ) ) {
-    preg_match( '/([0-9]?[0-9])(st|nd|th)/', $string, $matches_day );
+    preg_match( '/([0-9]?[0-9])(' . implode( '|', $ordinal_number ) . ')/', $string, $matches_day );
     if ( $matches_day && $matches_day[1] )
       $day = $matches_day[1];
   }
